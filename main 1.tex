@@ -1,0 +1,925 @@
+\documentclass[oneside]{book}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{cancel}
+
+\geometry{margin=1in}
+
+\title{}
+\author{Raj Gaurav Tripathi}
+\date{}
+
+
+\begin{document}
+
+% Minimal front page
+\begin{titlepage}
+    \centering
+    \vspace*{2cm}
+    
+    % Title
+    {\Huge \textbf{A basic Introduction to} \\[0.5cm]
+     \Huge \textbf{Lie Groups and Lie Algebras in Physics}\\[2cm]
+    
+ %   % Subtitle
+ %  {\Large Groups, Rings, Fields, and Vector Spaces}\\[3cm]
+    
+    % Author information
+    {\Large Raj Gaurav Tripathi}\\[1cm]
+    {\large Department of Physics, IISER Kolkata}\\[5cm]
+    
+    % Date
+    {\large \today}\\[4cm]
+    
+    % Bottom text
+    \vfill
+    {\large\itshape ``Matters of elegance should be left to the cobbler.'' \\ -- Ludwig Boltzmann}\\[4cm]
+\end{titlepage}
+
+
+\tableofcontents
+
+
+\chapter{Lie Groups and Lie Algebras in Physics}
+
+\section{Introduction: Classifying Particles by Fundamental Properties}
+
+Particles in physics are classified according to their fundamental properties including mass, electric charge, and \textbf{spin}. Spin is a particularly important quantum property that can take integer or half-integer values.
+
+\subsection{Particle Spin Examples}
+
+All known fundamental particles have spins of 0, 1/2, or 1:
+
+- \textbf{Spin 0}: Higgs boson
+- \textbf{Spin 1/2}: Matter-type particles (quarks, electrons, neutrinos)
+- \textbf{Spin 1}: Force-carrying particles (photons, gluons, W±, Z⁰ bosons)
+
+\subsection{Mathematical Representation of Spin}
+
+The spin value determines the mathematical object used to describe the particle:
+
+\begin{table}[H]
+\centering
+\begin{tabular}{ccc}
+\toprule
+\textbf{Spin} & \textbf{Mathematical Object} & \textbf{Description} \\
+\midrule
+0 & Scalars & Rank-0 tensors \\
+1/2 & Spinors & "Rank-1/2 tensors" (rotate half as much as vectors) \\
+1 & Vectors & Rank-1 tensors \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Composite particles can have higher spins:
+- \textbf{Spin 3/2}: Delta baryon Δ⁺⁺ (represented by spinors ⊗ spinors ⊗ spinors)
+- \textbf{Spin 2}: Hypothetical graviton (represented by vectors ⊗ vectors, related to the metric tensor in general relativity)
+
+\subsection{Transformation Behavior}
+
+Different particle types transform differently under physical transformations (rotations, boosts). For example, in a rotation in the xy-plane by angle θ:
+
+\textbf{Scalars} (spin 0):
+$$\begin{pmatrix} 1 \end{pmatrix}$$
+
+\textbf{Spinors} (spin 1/2):
+$$\begin{pmatrix} e^{-i\theta/2} & 0 \\ 0 & e^{+i\theta/2} \end{pmatrix} \begin{pmatrix} \alpha \\ \beta \end{pmatrix}$$
+
+\textbf{Vectors} (spin 1):
+$$\begin{pmatrix} \cos\theta & -\sin\theta & 0 \\ \sin\theta & \cos\theta & 0 \\ 0 & 0 & 1 \end{pmatrix} \begin{pmatrix} x \\ y \\ z \end{pmatrix}$$
+
+These transformation matrices belong to \textbf{Lie groups}, and understanding their structure through \textbf{Lie algebras} tells us how particles behave under transformations.
+
+\subsection{Quantum Operators as Lie Algebra Members}
+
+Many quantum mechanical operators belong to Lie algebras:
+
+\textbf{Hamiltonian}: $\hat{H} = i\hbar \frac{\partial}{\partial t}$
+
+\textbf{Momentum operators}: 
+$$\hat{p}_x = -i\hbar\frac{\partial}{\partial x}, \quad \hat{p}_y = -i\hbar\frac{\partial}{\partial y}, \quad \hat{p}_z = -i\hbar\frac{\partial}{\partial z}$$
+
+\textbf{Angular momentum operators}:
+$$\hat{L}_x = -i\hbar\left(y\frac{\partial}{\partial z} - z\frac{\partial}{\partial y}\right)$$
+$$\hat{L}_y = -i\hbar\left(z\frac{\partial}{\partial x} - x\frac{\partial}{\partial z}\right)$$
+$$\hat{L}_z = -i\hbar\left(x\frac{\partial}{\partial y} - y\frac{\partial}{\partial x}\right)$$
+
+\textbf{Spin operators}:
+$$\hat{S}_x = \frac{\hbar}{2}\begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}, \quad \hat{S}_y = \frac{\hbar}{2}\begin{pmatrix} 0 & -i \\ i & 0 \end{pmatrix}, \quad \hat{S}_z = \frac{\hbar}{2}\begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix}$$
+
+\section{Group Theory Fundamentals}
+
+\subsection{Definition of a Group}
+
+A \textbf{group} is a set of elements G that can be combined with an operation ∘ satisfying:
+
+1. \textbf{Closure}: If $a, b \in G$, then $a \circ b \in G$
+2. \textbf{Associativity}: $(a \circ b) \circ c = a \circ (b \circ c)$
+3. \textbf{Identity}: There exists $e \in G$ such that $a \circ e = e \circ a = a$ for all $a$
+4. \textbf{Inverses}: For every $a \in G$, there exists $a^{-1} \in G$ such that $a \circ a^{-1} = a^{-1} \circ a = e$
+
+\subsection{Example: Rotation Matrices Form a Group}
+
+\textbf{Identity}:
+$$\begin{pmatrix} \cos 0° & -\sin 0° & 0 \\ \sin 0° & \cos 0° & 0 \\ 0 & 0 & 1 \end{pmatrix} = \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1 \end{pmatrix}$$
+
+\textbf{Inverses}:
+$$\begin{pmatrix} \cos\theta & -\sin\theta & 0 \\ \sin\theta & \cos\theta & 0 \\ 0 & 0 & 1 \end{pmatrix}^{-1} = \begin{pmatrix} \cos(-\theta) & -\sin(-\theta) & 0 \\ \sin(-\theta) & \cos(-\theta) & 0 \\ 0 & 0 & 1 \end{pmatrix}$$
+
+\textbf{Combination}: Matrix multiplication of rotation matrices produces another rotation matrix.
+
+\subsection{Lie Groups}
+
+A \textbf{Lie group} is a \textbf{continuous} group (as opposed to discrete). 
+
+- \textbf{Reflections} are NOT a Lie group (discrete jumps)
+- \textbf{Rotations} ARE a Lie group (smooth, continuous transformations)
+
+Every Lie group has a corresponding \textbf{Lie algebra}, which consists of special matrices (generators) that can be exponentiated to produce Lie group elements.
+
+\section{The Lie Group SO(3) and Its Algebra so(3)}
+
+\subsection{The SO(3) Group}
+
+\textbf{SO(3)} = Special Orthogonal 3×3 matrices
+
+- \textbf{Orthogonal}: The inverse equals the transpose: $R^{-1} = R^T$
+  - This means the matrix doesn't change vector length
+- \textbf{Special}: Determinant equals +1: $\det(R) = +1$
+  - This excludes reflections
+
+Example: Rotation in the xy-plane:
+$$R_{xy}(\theta) = \begin{pmatrix} \cos\theta & -\sin\theta & 0 \\ \sin\theta & \cos\theta & 0 \\ 0 & 0 & 1 \end{pmatrix}$$
+
+\subsection{The Generator Matrix}
+
+The rotation matrix can be written as a matrix exponential:
+$$R_{xy}(\theta) = e^{\theta M}$$
+
+where the \textbf{generator} matrix M is:
+$$M = \begin{pmatrix} 0 & -1 & 0 \\ 1 & 0 & 0 \\ 0 & 0 & 0 \end{pmatrix}$$
+
+This generator belongs to the \textbf{Lie algebra so(3)} (written in lowercase fraktur font by convention).
+
+\section{Matrix Exponentials}
+
+\subsection{Taylor Series Definition}
+
+For a number x:
+$$e^x = \sum_{n=0}^{\infty} \frac{x^n}{n!} = \frac{x^0}{0!} + \frac{x^1}{1!} + \frac{x^2}{2!} + \frac{x^3}{3!} + \frac{x^4}{4!} + \frac{x^5}{5!} + \cdots$$
+
+For a matrix M:
+$$e^M = \sum_{n=0}^{\infty} \frac{M^n}{n!} = \frac{M^0}{0!} + \frac{M^1}{1!} + \frac{M^2}{2!} + \frac{M^3}{3!} + \frac{M^4}{4!} + \frac{M^5}{5!} + \cdots$$
+
+By convention, $M^0 = I$ (identity matrix), just as $x^0 = 1$.
+
+\subsection{Computing Powers of the Generator}
+
+For $M = \begin{pmatrix} 0 & -1 & 0 \\ 1 & 0 & 0 \\ 0 & 0 & 0 \end{pmatrix}$:
+
+$$M^0 = \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1 \end{pmatrix}$$
+
+$$M^1 = \begin{pmatrix} 0 & -1 & 0 \\ 1 & 0 & 0 \\ 0 & 0 & 0 \end{pmatrix}$$
+
+$$M^2 = \begin{pmatrix} 0 & -1 & 0 \\ 1 & 0 & 0 \\ 0 & 0 & 0 \end{pmatrix} \begin{pmatrix} 0 & -1 & 0 \\ 1 & 0 & 0 \\ 0 & 0 & 0 \end{pmatrix} = \begin{pmatrix} -1 & 0 & 0 \\ 0 & -1 & 0 \\ 0 & 0 & 0 \end{pmatrix}$$
+
+$$M^3 = M \cdot M^2 = \begin{pmatrix} 0 & -1 & 0 \\ 1 & 0 & 0 \\ 0 & 0 & 0 \end{pmatrix} \begin{pmatrix} -1 & 0 & 0 \\ 0 & -1 & 0 \\ 0 & 0 & 0 \end{pmatrix} = \begin{pmatrix} 0 & 1 & 0 \\ -1 & 0 & 0 \\ 0 & 0 & 0 \end{pmatrix} = -M$$
+
+$$M^4 = M^3 \cdot M = (-M) \cdot M = -M^2 = \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 0 \end{pmatrix}$$
+
+$$M^5 = M^3 \cdot M^2 = (-M) \cdot M^2 = -M^3 = -(-M) = M$$
+
+The pattern repeats: $M^5 = M$, $M^6 = M^2$, $M^7 = M^3$, etc.
+
+\subsection{Evaluating the Matrix Exponential}
+
+$$e^{\theta M} = \sum_{n=0}^{\infty} \frac{(\theta M)^n}{n!} = M^0\frac{\theta^0}{0!} + M^1\frac{\theta^1}{1!} + M^2\frac{\theta^2}{2!} + M^3\frac{\theta^3}{3!} + M^4\frac{\theta^4}{4!} + \cdots$$
+
+Substituting the powers:
+$$e^{\theta M} = \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1 \end{pmatrix}\frac{\theta^0}{0!} + \begin{pmatrix} 0 & -1 & 0 \\ 1 & 0 & 0 \\ 0 & 0 & 0 \end{pmatrix}\frac{\theta^1}{1!} + \begin{pmatrix} -1 & 0 & 0 \\ 0 & -1 & 0 \\ 0 & 0 & 0 \end{pmatrix}\frac{\theta^2}{2!} + \begin{pmatrix} 0 & 1 & 0 \\ -1 & 0 & 0 \\ 0 & 0 & 0 \end{pmatrix}\frac{\theta^3}{3!} + \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 0 \end{pmatrix}\frac{\theta^4}{4!} + \cdots$$
+
+Looking at the top-left entry:
+$$\frac{\theta^0}{0!} - \frac{\theta^2}{2!} + \frac{\theta^4}{4!} - \cdots = \cos\theta$$
+
+Looking at the entry in position (1,2):
+$$-\frac{\theta^1}{1!} + \frac{\theta^3}{3!} - \frac{\theta^5}{5!} + \cdots = -\sin\theta$$
+
+Looking at the entry in position (2,1):
+$$\frac{\theta^1}{1!} - \frac{\theta^3}{3!} + \frac{\theta^5}{5!} - \cdots = \sin\theta$$
+
+Looking at the entry in position (2,2):
+$$\frac{\theta^0}{0!} - \frac{\theta^2}{2!} + \frac{\theta^4}{4!} - \cdots = \cos\theta$$
+
+Looking at the bottom-right entry:
+$$1 + 0 + 0 + \cdots = 1$$
+
+Therefore:
+$$e^{\theta M} = \begin{pmatrix} \cos\theta & -\sin\theta & 0 \\ \sin\theta & \cos\theta & 0 \\ 0 & 0 & 1 \end{pmatrix}$$
+
+This is indeed the rotation matrix in the xy-plane!
+
+\section{Recipe for Finding Generators}
+
+\subsection{Derivative Method}
+
+For a scalar: If we have $e^{\theta s}$ where s is a number:
+$$\frac{d}{d\theta}e^{\theta s} = se^{\theta s}$$
+
+Setting $\theta = 0$:
+$$\frac{d}{d\theta}e^{\theta s}\bigg|_{\theta=0} = se^{0} = s \cdot 1 = s$$
+
+For a matrix: If we have $e^{\theta M}$ where M is a matrix:
+$$\frac{d}{d\theta}e^{\theta M} = Me^{\theta M}$$
+
+\textbf{Proof using Taylor series}:
+$$\frac{d}{d\theta}e^{\theta M} = \frac{d}{d\theta}\sum_{n=0}^{\infty}\frac{(\theta M)^n}{n!} = \sum_{n=0}^{\infty}\frac{n\theta^{n-1}M^n}{n!} = \sum_{n=0}^{\infty}\frac{M\theta^{n-1}M^{n-1}}{(n-1)!} = Me^{\theta M}$$
+
+Setting $\theta = 0$:
+$$\frac{d}{d\theta}e^{\theta M}\bigg|_{\theta=0} = Me^{0M} = MI = M$$
+
+\subsection{General Recipe}
+
+To find the generator M of a Lie group matrix R:
+$$M = \frac{dR}{d\theta}\bigg|_{\theta=0}$$
+
+\textbf{Two steps}:
+1. Take the derivative with respect to the parameter
+2. Set the parameter to zero
+
+\subsection{Example: xy-plane Rotation}
+
+$$R_{xy}(\theta) = \begin{pmatrix} \cos\theta & -\sin\theta & 0 \\ \sin\theta & \cos\theta & 0 \\ 0 & 0 & 1 \end{pmatrix}$$
+
+Step 1: Take derivative:
+$$\frac{d}{d\theta}R_{xy}(\theta) = \begin{pmatrix} -\sin\theta & -\cos\theta & 0 \\ \cos\theta & -\sin\theta & 0 \\ 0 & 0 & 0 \end{pmatrix}$$
+
+Step 2: Set $\theta = 0$:
+$$M = \begin{pmatrix} -\sin 0 & -\cos 0 & 0 \\ \cos 0 & -\sin 0 & 0 \\ 0 & 0 & 0 \end{pmatrix} = \begin{pmatrix} 0 & -1 & 0 \\ 1 & 0 & 0 \\ 0 & 0 & 0 \end{pmatrix}$$
+
+This matches the generator we used earlier!
+
+\subsection{All Three Rotation Generators}
+
+\textbf{Rotation in xy-plane}:
+$$R_{xy}(\theta) = \begin{pmatrix} \cos\theta & -\sin\theta & 0 \\ \sin\theta & \cos\theta & 0 \\ 0 & 0 & 1 \end{pmatrix} \quad \Rightarrow \quad g_{xy} = \frac{dR_{xy}}{d\theta}\bigg|_{\theta=0} = \begin{pmatrix} 0 & -1 & 0 \\ 1 & 0 & 0 \\ 0 & 0 & 0 \end{pmatrix}$$
+
+\textbf{Rotation in yz-plane}:
+$$R_{yz}(\phi) = \begin{pmatrix} 1 & 0 & 0 \\ 0 & \cos\phi & -\sin\phi \\ 0 & \sin\phi & \cos\phi \end{pmatrix} \quad \Rightarrow \quad g_{yz} = \frac{dR_{yz}}{d\phi}\bigg|_{\phi=0} = \begin{pmatrix} 0 & 0 & 0 \\ 0 & 0 & -1 \\ 0 & 1 & 0 \end{pmatrix}$$
+
+\textbf{Rotation in zx-plane}:
+$$R_{zx}(\psi) = \begin{pmatrix} \cos\psi & 0 & \sin\psi \\ 0 & 1 & 0 \\ -\sin\psi & 0 & \cos\psi \end{pmatrix} \quad \Rightarrow \quad g_{zx} = \frac{dR_{zx}}{d\psi}\bigg|_{\psi=0} = \begin{pmatrix} 0 & 0 & 1 \\ 0 & 0 & 0 \\ -1 & 0 & 0 \end{pmatrix}$$
+
+These three generators form a basis for the Lie algebra so(3).
+
+\section{Exponential of Derivative Operators}
+
+This is a brief aside showing that derivatives can also be exponentiated using the Taylor series definition.
+
+\subsection{Translation Operator}
+
+Using the exponential of a derivative:
+$$e^{a\frac{d}{dx}}f(x) = f(x+a)$$
+
+This operator translates (shifts) a function by amount a.
+
+\textbf{Proof using Taylor series}:
+
+The Taylor series of $f(x)$ around $x_0$ is:
+$$f(x) = \sum_{n=0}^{\infty}\frac{(x-x_0)^n}{n!}\frac{d^nf}{dx^n}\bigg|_{x_0}$$
+
+Setting $x = x_0 + \Delta x$:
+$$f(x_0 + \Delta x) = \sum_{n=0}^{\infty}\frac{(\Delta x)^n}{n!}\frac{d^nf}{dx_0^n}\bigg|_{x_0}$$
+
+Using the chain rule, $\frac{d}{dx_0} = \frac{d(x_0 + \Delta x)}{dx_0}\frac{d}{d(x_0 + \Delta x)} = 1 \cdot \frac{d}{d(x_0 + \Delta x)}$:
+
+$$f(x_0 + \Delta x) = \sum_{n=0}^{\infty}\frac{1}{n!}\left(\Delta x\frac{d}{dx_0}\right)^n f(x_0) = e^{\Delta x\frac{d}{dx_0}}f(x_0)$$
+
+\subsection{Connection to Quantum Mechanics}
+
+Just as rotation matrices generate rotations when exponentiated:
+$$e^{\theta g_{xy}} = R_{xy}(\theta)$$
+
+The derivative operator generates translations when exponentiated:
+$$e^{a\frac{d}{dx}} = T_x(a)$$
+
+where $T_x(a)\psi(x) = \psi(x+a)$.
+
+In quantum mechanics, the \textbf{momentum operator} contains a derivative:
+$$\hat{p}_x = -i\hbar\frac{\partial}{\partial x}$$
+
+because momentum is the generator of spatial translations:
+$$T_x(a) = e^{a\frac{i}{\hbar}\hat{p}_x} = e^{a\frac{d}{dx}}$$
+
+The factor of $i$ makes the operator Hermitian, which is required for observables in quantum mechanics.
+
+\section{Properties of SO(3) Generators}
+
+\subsection{Traceless Property}
+
+\textbf{Theorem}: For a matrix A,
+$$\det(e^A) = e^{\text{tr}(A)}$$
+
+\textbf{Proof for diagonal matrices}:
+
+If $A = \begin{pmatrix} \lambda_1 & 0 & 0 \\ 0 & \lambda_2 & 0 \\ 0 & 0 & \lambda_3 \end{pmatrix}$, then:
+
+$$e^A = \begin{pmatrix} e^{\lambda_1} & 0 & 0 \\ 0 & e^{\lambda_2} & 0 \\ 0 & 0 & e^{\lambda_3} \end{pmatrix}$$
+
+Therefore:
+$$\det(e^A) = e^{\lambda_1} \cdot e^{\lambda_2} \cdot e^{\lambda_3}$$
+
+Also:
+$$\text{tr}(A) = \lambda_1 + \lambda_2 + \lambda_3$$
+
+So:
+$$e^{\text{tr}(A)} = e^{\lambda_1 + \lambda_2 + \lambda_3} = e^{\lambda_1} \cdot e^{\lambda_2} \cdot e^{\lambda_3}$$
+
+Thus: $\det(e^A) = e^{\text{tr}(A)}$
+
+Since eigenvalues, determinant, and trace are unchanged by coordinate transformations, this theorem holds for any diagonalizable matrix, including our SO(3) generators (provided we allow complex entries).
+
+\textbf{Applying to SO(3)}:
+
+For a rotation matrix $R \in SO(3)$, we know $\det(R) = +1$.
+
+If $R(\theta) = e^{\theta M}$:
+$$\det(R(\theta)) = 1$$
+$$\det(e^{\theta M}) = 1$$
+$$e^{\theta \cdot \text{tr}(M)} = 1$$
+
+For this to be true for all values of $\theta$:
+$$\text{tr}(M) = 0$$
+
+\textbf{Conclusion}: All SO(3) generators are \textbf{traceless}.
+
+\subsection{Antisymmetric Property}
+
+For an SO(3) matrix R, we know $R^{-1} = R^T$ (orthogonality).
+
+Therefore:
+$$R \cdot R^T = I$$
+
+Taking the derivative of both sides:
+$$\frac{d}{d\theta}(R(\theta) \cdot R(\theta)^T) = \frac{dI}{d\theta}$$
+
+Using the product rule on the left:
+$$\frac{dR(\theta)}{d\theta} \cdot R(\theta)^T + R(\theta) \cdot \frac{dR(\theta)^T}{d\theta} = 0$$
+
+Now express R as an exponential: $R(\theta) = e^{\theta M}$
+
+The transpose of an exponential is:
+$$e^{\theta M^T} = \left(\sum_{n=0}^{\infty}\frac{(\theta M)^n}{n!}\right)^T = \sum_{n=0}^{\infty}\frac{(\theta M^T)^n}{n!} = e^{\theta M^T}$$
+
+So: $(e^{\theta M})^T = e^{\theta M^T}$
+
+The derivative of the exponential brings down a factor of M (by chain rule):
+$$\frac{d}{d\theta}e^{\theta M} = Me^{\theta M}$$
+
+Substituting into our equation:
+$$Me^{\theta M} \cdot e^{\theta M^T} + e^{\theta M} \cdot M^T e^{\theta M^T} = 0$$
+
+Setting $\theta = 0$ (all exponentials become the identity):
+$$M \cdot I \cdot I + I \cdot M^T \cdot I = 0$$
+$$M + M^T = 0$$
+$$M^T = -M$$
+
+\textbf{Conclusion}: All SO(3) generators are \textbf{antisymmetric}.
+
+\subsection{Summary for SO(3)}
+
+The Lie algebra so(3) consists of all 3×3 matrices that are:
+- \textbf{Traceless}: $\text{tr}(M) = 0$
+- \textbf{Antisymmetric}: $M^T = -M$
+
+In set notation:
+$$\mathfrak{so}(3) = \{M \in \mathbb{R}^{3\times 3} : M^T = -M, \text{tr}(M) = 0\}$$
+
+\section{Warning: Matrix Exponent Rules Don't Always Work}
+
+For ordinary numbers, we have:
+$$e^a \cdot e^b = e^{a+b}$$
+
+\textbf{This is NOT always true for matrices!}
+
+For matrices A and B:
+$$e^A \cdot e^B \neq e^{A+B} \quad \text{(in general)}$$
+
+\subsection{Why Matrix Exponent Rules Fail}
+
+Expanding as Taylor series:
+$$e^A \cdot e^B = \left(I + A + \frac{A^2}{2} + \cdots\right)\left(I + B + \frac{B^2}{2} + \cdots\right)$$
+$$= I + A + B + \frac{1}{2}(A^2 + 2AB + B^2) + \cdots$$
+
+$$e^{A+B} = I + (A+B) + \frac{(A+B)^2}{2} + \cdots$$
+$$= I + A + B + \frac{1}{2}(A^2 + AB + BA + B^2) + \cdots$$
+
+Comparing the second-order terms:
+- From $e^A e^B$: $\frac{1}{2}(A^2 + 2AB + B^2)$
+- From $e^{A+B}$: $\frac{1}{2}(A^2 + AB + BA + B^2)$
+
+These are only equal if $AB = BA$ (i.e., if A and B \textbf{commute}).
+
+\textbf{Conclusion}: 
+$$e^A e^B = e^{A+B} \quad \text{ONLY if } AB = BA$$
+
+or equivalently, only if the \textbf{commutator} $[A,B] = AB - BA = 0$.
+
+\subsection{Special Case: Antisymmetric Matrices}
+
+For an antisymmetric matrix M (where $M^T = -M$):
+$$M \cdot M^T = M \cdot (-M) = -M \cdot M = -M^2 = M^T \cdot M$$
+
+So M does commute with $M^T$, and we can write:
+$$e^M \cdot e^{M^T} = e^{M + M^T}$$
+
+for antisymmetric matrices.
+
+\subsection{Baker-Campbell-Hausdorff Formula}
+
+The general relationship between $e^X e^Y$ and exponentials is given by:
+$$e^X e^Y = e^Z$$
+
+where:
+$$Z = X + Y + \frac{1}{2}[X,Y] + \frac{1}{12}([X,[X,Y]] + [Y,[Y,X]]) + \cdots$$
+
+This is an infinite series involving nested commutators.
+
+\section{What is a Lie Algebra?}
+
+An \textbf{algebra} is a vector space where addition, subtraction, and multiplication are defined (division is not required).
+
+Generator matrices can be thought of as vectors:
+- We can \textbf{add} generators: $g_{xy} + g_{yz}$ gives another generator
+- We can \textbf{subtract} generators: $g_{xy} - g_{yz}$ gives another generator
+- We can \textbf{scale} generators: $c \cdot g_{xy}$ gives another generator
+
+But what about \textbf{multiplication}?
+
+\subsection{Why Matrix Multiplication Doesn't Work}
+
+Adding two traceless, antisymmetric matrices gives another traceless, antisymmetric matrix. ✓
+
+Subtracting two traceless, antisymmetric matrices gives another traceless, antisymmetric matrix. ✓
+
+But multiplying two antisymmetric matrices does NOT always give an antisymmetric matrix. ✗
+
+\textbf{Example}:
+$$g_{xy} \cdot g_{yz} = \begin{pmatrix} 0 & -1 & 0 \\ 1 & 0 & 0 \\ 0 & 0 & 0 \end{pmatrix} \begin{pmatrix} 0 & 0 & 0 \\ 0 & 0 & -1 \\ 0 & 1 & 0 \end{pmatrix} = \begin{pmatrix} 0 & 0 & 1 \\ 0 & 0 & 0 \\ 0 & 0 & 0 \end{pmatrix}$$
+
+This matrix squares to zero: $(g_{xy} g_{yz})^2 = 0$
+
+Exponentiating:
+$$e^{\theta(g_{xy}g_{yz})} = I + \theta(g_{xy}g_{yz}) + 0 + 0 + \cdots = \begin{pmatrix} 1 & 0 & \theta \\ 0 & 1 & 0 \\ 0 & 0 & 1 \end{pmatrix}$$
+
+This is NOT a rotation matrix! It's a shear transformation.
+
+\subsection{The Commutator (Lie Bracket)}
+
+Instead of using matrix multiplication as our algebra operation, we use the \textbf{commutator}:
+$$[A, B] = AB - BA$$
+
+In the context of Lie algebras, this is called the \textbf{Lie bracket}.
+
+\textbf{Example}:
+$$[g_{xy}, g_{yz}] = g_{xy}g_{yz} - g_{yz}g_{xy}$$
+
+Computing $g_{yz} \cdot g_{xy}$:
+$$g_{yz} \cdot g_{xy} = \begin{pmatrix} 0 & 0 & 0 \\ 0 & 0 & -1 \\ 0 & 1 & 0 \end{pmatrix} \begin{pmatrix} 0 & -1 & 0 \\ 1 & 0 & 0 \\ 0 & 0 & 0 \end{pmatrix} = \begin{pmatrix} 0 & 0 & 0 \\ 0 & 0 & 0 \\ 1 & 0 & 0 \end{pmatrix}$$
+
+Therefore:
+$$[g_{xy}, g_{yz}] = \begin{pmatrix} 0 & 0 & 1 \\ 0 & 0 & 0 \\ 0 & 0 & 0 \end{pmatrix} - \begin{pmatrix} 0 & 0 & 0 \\ 0 & 0 & 0 \\ 1 & 0 & 0 \end{pmatrix} = \begin{pmatrix} 0 & 0 & 1 \\ 0 & 0 & 0 \\ -1 & 0 & 0 \end{pmatrix} = g_{zx}$$
+
+The commutator of two generators gives another generator!
+
+\subsection{The so(3) Commutation Relations}
+
+Working out all the commutators:
+$$[g_{xy}, g_{yz}] = g_{zx}$$
+$$[g_{zx}, g_{xy}] = g_{yz}$$
+$$[g_{yz}, g_{zx}] = g_{xy}$$
+
+These are the \textbf{commutation relations} for the Lie algebra so(3).
+
+Together with the rules for addition, subtraction, and the Lie bracket, the three generators $\{g_{xy}, g_{yz}, g_{zx}\}$ form the Lie algebra so(3).
+
+\subsection{Abstract Definition of Lie Bracket}
+
+In more abstract treatments, the Lie bracket is defined by these properties:
+
+1. \textbf{Alternating}: $[x, x] = 0$
+2. \textbf{Jacobi Identity}: $[[x,y],z] + [[z,x],y] + [[y,z],x] = 0$
+
+The matrix commutator $[A,B] = AB - BA$ satisfies both these properties, so it is a valid Lie bracket.
+
+\section{Lie Algebras as Tangent Spaces}
+
+A Lie group is a continuous space (a manifold). Each point in the space is a different group element.
+
+\subsection{Visualizing the Lie Group}
+
+Consider the curve of xy-plane rotations parameterized by θ:
+$$R_{xy}(\theta) = \begin{pmatrix} \cos\theta & -\sin\theta & 0 \\ \sin\theta & \cos\theta & 0 \\ 0 & 0 & 1 \end{pmatrix}$$
+
+- At $\theta = 0$: We get the identity matrix (no rotation)
+- As θ increases: We trace out a curve through the Lie group SO(3)
+
+When we take the derivative $\frac{d}{d\theta}R_{xy}(\theta)$, we're finding the \textbf{tangent vectors} along this curve.
+
+When we evaluate at $\theta = 0$, we get the \textbf{tangent vector at the identity}:
+$$\frac{d}{d\theta}R_{xy}(\theta)\bigg|_{\theta=0} = g_{xy}$$
+
+The generator $g_{xy}$ is a tangent vector at the identity!
+
+The set of all generators forms a \textbf{tangent space} at the identity element of the Lie group. This tangent space IS the Lie algebra.
+
+\subsection{Proofs of Lie Algebra Properties}
+
+The following proofs show that the tangent space at the identity satisfies the requirements of a Lie algebra. These proofs work for any Lie group G with Lie algebra $\mathfrak{g}$.
+
+\subsubsection*{Proof 1: Sum of Tangent Vectors is a Tangent Vector}
+
+Consider two paths in the Lie group:
+$$A(s) = e^{sa}, \quad B(s) = e^{sb}$$
+
+At $s = 0$, both give the identity: $A(0) = B(0) = I$
+
+Their derivatives at $s = 0$ give generators:
+$$\frac{dA}{ds}\bigg|_{s=0} = a, \quad \frac{dB}{ds}\bigg|_{s=0} = b$$
+
+Now consider the product path:
+$$C(s) = A(s) \cdot B(s)$$
+
+Taking the derivative using the product rule:
+$$\frac{d}{ds}C(s) = \frac{d}{ds}A(s) \cdot B(s) + A(s) \cdot \frac{d}{ds}B(s)$$
+
+At $s = 0$:
+$$\frac{dC}{ds}\bigg|_{s=0} = \frac{dA}{ds}\bigg|_{s=0} \cdot B(0) + A(0) \cdot \frac{dB}{ds}\bigg|_{s=0} = a \cdot I + I \cdot b = a + b$$
+
+Therefore, $a + b$ is a tangent vector (tangent to the curve $C(s)$ at the identity).
+
+\textbf{Important note}: Although the product of exponentials is not generally equal to the exponential of the sum:
+$$e^{sA} e^{sB} \neq e^{s(A+B)}$$
+
+both formulas have the \textbf{same first-order term} when expanded as Taylor series. This means they have the same tangent vector at the identity:
+$$\frac{d}{ds}(e^{sA}e^{sB})\bigg|_{s=0} = A + B = \frac{d}{ds}e^{s(A+B)}\bigg|_{s=0}$$
+
+There are infinitely many curves through the identity with the same tangent vector. However, when we treat the tangent vector as a \textbf{generator} and exponentiate it, it generates a unique curve: $e^{sa}$.
+
+\subsubsection*{Proof 2: Scalar Multiple of a Tangent Vector is a Tangent Vector}
+
+Consider the path $A(s)$ and form a new path $A(rs)$ where r is a constant:
+
+Taking the derivative using the chain rule:
+$$\frac{d}{ds}A(rs) = \frac{d(rs)}{ds} \cdot \frac{dA(rs)}{d(rs)} = r \cdot \frac{dA}{ds}$$
+
+At $s = 0$:
+$$\frac{d}{ds}A(rs)\bigg|_{s=0} = r \cdot \frac{dA}{ds}\bigg|_{s=0} = ra$$
+
+Therefore, $ra$ is a tangent vector (tangent to the curve $A(rs)$ at the identity).
+
+\subsubsection*{Proof 3: Commutator of Tangent Vectors is a Tangent Vector}
+
+This is the key proof that establishes the Lie bracket structure.
+
+Consider a path with three segments:
+$$D(s,t) = A(s) \cdot B(t) \cdot A^{-1}(s)$$
+
+This is called a \textbf{conjugation}: $ABA^{-1}$.
+
+Taking the partial derivative with respect to t (holding s constant):
+$$\frac{\partial}{\partial t}D(s,t) = A(s) \cdot \frac{\partial B(t)}{\partial t} \cdot A^{-1}(s)$$
+
+At $t = 0$:
+$$\frac{\partial}{\partial t}D(s,0) = A(s) \cdot b \cdot A^{-1}(s)$$
+
+This is a tangent vector at the identity (for each fixed value of s).
+
+Now take the partial derivative with respect to s, using the product rule:
+$$\frac{\partial}{\partial s}\left(\frac{\partial D}{\partial t}\bigg|_{t=0}\right) = \frac{\partial}{\partial s}(A(s) \cdot b \cdot A^{-1}(s))$$
+$$= \frac{\partial A}{\partial s} \cdot b \cdot A^{-1}(s) + A(s) \cdot b \cdot \frac{\partial A^{-1}}{\partial s}$$
+
+At $s = 0$:
+$$\frac{\partial^2 D}{\partial s \partial t}\bigg|_{s=0,t=0} = \frac{\partial A}{\partial s}\bigg|_{s=0} \cdot b \cdot I + I \cdot b \cdot \frac{\partial A^{-1}}{\partial s}\bigg|_{s=0}$$
+
+Now, since $A(s) \cdot A^{-1}(s) = I$, taking the derivative:
+$$\frac{\partial A}{\partial s} \cdot A^{-1} + A \cdot \frac{\partial A^{-1}}{\partial s} = 0$$
+
+At $s = 0$:
+$$a \cdot I + I \cdot \frac{\partial A^{-1}}{\partial s}\bigg|_{s=0} = 0$$
+$$\frac{\partial A^{-1}}{\partial s}\bigg|_{s=0} = -a$$
+
+Substituting back:
+$$\frac{\partial^2 D}{\partial s \partial t}\bigg|_{s=0,t=0} = a \cdot b \cdot I + I \cdot b \cdot (-a) = ab - ba = [a,b]$$
+
+\textbf{Interpretation}: 
+- For fixed s, $\frac{\partial D}{\partial t}|_{t=0}$ is a tangent vector
+- As s varies, we get a path of tangent vectors
+- Taking $\frac{\partial}{\partial s}$ gives tangent vectors to this path-of-tangent-vectors
+- At $s=0, t=0$, this equals $[a,b]$
+
+Since tangent vectors in a vector space also belong to that same vector space, the commutator $[a,b]$ belongs to the tangent space (the Lie algebra).
+
+\subsection{Summary: Vector Space and Lie Algebra}
+
+We've proven that the tangent space at the identity has:
+- \textbf{Sum}: $a + b$ is a tangent vector
+- \textbf{Scalar multiplication}: $ra$ is a tangent vector
+- \textbf{Lie bracket}: $[a,b]$ is a tangent vector
+
+These properties make it a \textbf{Lie algebra}.
+
+\section{Structure Coefficients}
+
+For a general Lie algebra with basis generators $\{g_1, g_2, \ldots, g_n\}$:
+
+The Lie bracket of two basis generators doesn't always give back a single basis generator, but it always gives a \textbf{linear combination} of basis generators:
+$$[g_i, g_j] = \sum_k f_{ij}^k g_k$$
+
+The coefficients $f_{ij}^k$ are called the \textbf{structure coefficients} or \textbf{structure constants} of the Lie algebra.
+
+\subsection{Structure Coefficients for so(3)}
+
+Relabeling our generators:
+$$g_1 = g_{yz}, \quad g_2 = g_{zx}, \quad g_3 = g_{xy}$$
+
+The commutation relations become:
+$$[g_1, g_2] = g_3$$
+$$[g_3, g_1] = g_2$$
+$$[g_2, g_3] = g_1$$
+
+Reading off the structure coefficients:
+$$f_{12}^3 = 1, \quad f_{31}^2 = 1, \quad f_{23}^1 = 1$$
+
+Since the commutator is antisymmetric ($[g_i, g_j] = -[g_j, g_i]$):
+$$f_{ji}^k = -f_{ij}^k$$
+
+So:
+$$f_{21}^3 = -1, \quad f_{13}^2 = -1, \quad f_{32}^1 = -1$$
+
+All other structure coefficients are zero.
+
+\subsection{Levi-Civita Symbol}
+
+For so(3), the structure coefficients can be written compactly using the \textbf{antisymmetric symbol} (Levi-Civita symbol):
+$$[g_i, g_j] = \sum_k \epsilon_{ijk} g_k$$
+
+where:
+$$\epsilon_{ijk} = \begin{cases} +1 & \text{if } (i,j,k) \text{ is an even permutation of } (1,2,3) \\ -1 & \text{if } (i,j,k) \text{ is an odd permutation of } (1,2,3) \\ 0 & \text{if any indices are repeated} \end{cases}$$
+
+\section{Summary: SO(3) Lie Group and Algebra}
+
+\subsection{The Lie Group SO(3)}
+
+\textbf{Definition}:
+$$SO(3) = \{R \in \mathbb{R}^{3\times 3} : R^{-1} = R^T, \det(R) = +1\}$$
+
+\textbf{Rotation matrices}:
+$$R_{xy}(\theta) = \begin{pmatrix} \cos\theta & -\sin\theta & 0 \\ \sin\theta & \cos\theta & 0 \\ 0 & 0 & 1 \end{pmatrix}$$
+
+$$R_{yz}(\phi) = \begin{pmatrix} 1 & 0 & 0 \\ 0 & \cos\phi & -\sin\phi \\ 0 & \sin\phi & \cos\phi \end{pmatrix}$$
+
+$$R_{zx}(\psi) = \begin{pmatrix} \cos\psi & 0 & \sin\psi \\ 0 & 1 & 0 \\ -\sin\psi & 0 & \cos\psi \end{pmatrix}$$
+
+\subsection{The Lie Algebra so(3)}
+
+\textbf{Definition}:
+$$\mathfrak{so}(3) = \{M \in \mathbb{R}^{3\times 3} : M^T = -M, \text{tr}(M) = 0\}$$
+
+\textbf{Generator matrices}:
+$$g_{xy} = \begin{pmatrix} 0 & -1 & 0 \\ 1 & 0 & 0 \\ 0 & 0 & 0 \end{pmatrix}, \quad g_{yz} = \begin{pmatrix} 0 & 0 & 0 \\ 0 & 0 & -1 \\ 0 & 1 & 0 \end{pmatrix}, \quad g_{zx} = \begin{pmatrix} 0 & 0 & 1 \\ 0 & 0 & 0 \\ -1 & 0 & 0 \end{pmatrix}$$
+
+\textbf{Exponential map}:
+$$e^{\theta g_{xy}} = R_{xy}(\theta), \quad e^{\phi g_{yz}} = R_{yz}(\phi), \quad e^{\psi g_{zx}} = R_{zx}(\psi)$$
+
+\textbf{Recipe for generators}:
+$$g = \frac{dR}{d\theta}\bigg|_{\theta=0}$$
+
+\textbf{Commutation relations}:
+$$[g_{xy}, g_{yz}] = g_{zx}$$
+$$[g_{zx}, g_{xy}] = g_{yz}$$
+$$[g_{yz}, g_{zx}] = g_{xy}$$
+
+\section{The Lorentz Group SO⁺(1,3)}
+
+The \textbf{Lorentz group} SO⁺(1,3) consists of spacetime transformations that preserve the spacetime interval:
+$$s^2 = +ct^2 - x^2 - y^2 - z^2$$
+
+This is the metric signature with one plus sign and three minus signs (hence the notation 1,3).
+
+- \textbf{Special (S)}: $\det(\Lambda) = +1$ (excludes spatial reflections)
+- \textbf{Orthochronous (+)}: $\Lambda_0^0 > 0$ (excludes time reflections)
+
+The group includes:
+- \textbf{3 rotations} (in xy, yz, zx planes)
+- \textbf{3 boosts} (in tx, ty, tz planes - relative motion along each axis)
+
+\subsection{Lorentz Transformation Matrices}
+
+\textbf{Rotations} (same as SO(3)):
+$$\Lambda_{xy}(\theta) = \begin{pmatrix} 1 & 0 & 0 & 0 \\ 0 & \cos\theta & -\sin\theta & 0 \\ 0 & \sin\theta & \cos\theta & 0 \\ 0 & 0 & 0 & 1 \end{pmatrix}$$
+
+$$\Lambda_{yz}(\theta) = \begin{pmatrix} 1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & \cos\theta & -\sin\theta \\ 0 & 0 & \sin\theta & \cos\theta \end{pmatrix}$$
+
+$$\Lambda_{zx}(\theta) = \begin{pmatrix} 1 & 0 & 0 & 0 \\ 0 & \cos\theta & 0 & \sin\theta \\ 0 & 0 & 1 & 0 \\ 0 & -\sin\theta & 0 & \cos\theta \end{pmatrix}$$
+
+\textbf{Boosts}:
+$$\Lambda_{tx}(\phi) = \begin{pmatrix} \cosh\phi & \sinh\phi & 0 & 0 \\ \sinh\phi & \cosh\phi & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & 1 \end{pmatrix}$$
+
+$$\Lambda_{ty}(\phi) = \begin{pmatrix} \cosh\phi & 0 & \sinh\phi & 0 \\ 0 & 1 & 0 & 0 \\ \sinh\phi & 0 & \cosh\phi & 0 \\ 0 & 0 & 0 & 1 \end{pmatrix}$$
+
+$$\Lambda_{tz}(\phi) = \begin{pmatrix} \cosh\phi & 0 & 0 & \sinh\phi \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ \sinh\phi & 0 & 0 & \cosh\phi \end{pmatrix}$$
+
+\subsection{Generators of SO⁺(1,3)}
+
+Using the recipe $g = \frac{d\Lambda}{d\theta}|_{\theta=0}$:
+
+\textbf{Rotation generators} (denoted with J):
+$$J_{xy} = \begin{pmatrix} 0 & 0 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & -1 & 0 & 0 \\ 0 & 0 & 0 & 0 \end{pmatrix}, \quad J_{yz} = \begin{pmatrix} 0 & 0 & 0 & 0 \\ 0 & 0 & 0 &0 \\ 0 & 0 & 0 & 1 \\ 0 & 0 & -1 & 0 \end{pmatrix}, \quad J_{zx} = \begin{pmatrix} 0 & 0 & 0 & 0 \\ 0 & 0 & 0 & -1 \\ 0 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0 \end{pmatrix}$$
+
+These are \textbf{traceless and antisymmetric}.
+
+\textbf{Boost generators} (denoted with K):
+$$K_{tx} = \begin{pmatrix} 0 & 1 & 0 & 0 \\ 1 & 0 & 0 & 0 \\ 0 & 0 & 0 & 0 \\ 0 & 0 & 0 & 0 \end{pmatrix}, \quad K_{ty} = \begin{pmatrix} 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & 0 \\ 1 & 0 & 0 & 0 \\ 0 & 0 & 0 & 0 \end{pmatrix}, \quad K_{tz} = \begin{pmatrix} 0 & 0 & 0 & 1 \\ 0 & 0 & 0 & 0 \\ 0 & 0 & 0 & 0 \\ 1 & 0 & 0 & 0 \end{pmatrix}$$
+
+These are \textbf{traceless and symmetric}.
+
+\subsection{The Lie Algebra so⁺(1,3)}
+
+The six generators (3 rotations + 3 boosts) form a basis for the Lie algebra so⁺(1,3).
+
+\textbf{Commutation relations}:
+
+\textbf{Rotation-Rotation commutators} (give rotations):
+$$[J_{yz}, J_{zx}] = J_{xy}$$
+$$[J_{xy}, J_{yz}] = J_{zx}$$
+$$[J_{zx}, J_{xy}] = J_{yz}$$
+
+\textbf{Boost-Boost commutators} (give rotations):
+$$[K_{tx}, K_{ty}] = -J_{xy}$$
+$$[K_{tz}, K_{tx}] = -J_{zx}$$
+$$[K_{ty}, K_{tz}] = -J_{yz}$$
+
+\textbf{Rotation-Boost commutators} (give boosts):
+$$[J_{yz}, K_{ty}] = +K_{tz}$$
+$$[J_{yz}, K_{tz}] = -K_{ty}$$
+$$[J_{zx}, K_{tz}] = +K_{tx}$$
+$$[J_{zx}, K_{tx}] = -K_{tz}$$
+$$[J_{xy}, K_{tx}] = +K_{ty}$$
+$$[J_{xy}, K_{ty}] = -K_{tx}$$
+
+All other commutation relations give zero.
+
+\subsection{SO(3) as a Sub-algebra}
+
+Note that the commutation relations for the J generators alone form a closed set:
+$$[J_{yz}, J_{zx}] = J_{xy}$$
+$$[J_{xy}, J_{yz}] = J_{zx}$$
+$$[J_{zx}, J_{xy}] = J_{yz}$$
+
+This shows that \textbf{so(3) lives inside so⁺(1,3)} as a sub-algebra.
+
+\section{Representations: Spin-1 vs Spin-1/2}
+
+The SO(3) and SO⁺(1,3) matrices we've been discussing operate on vectors:
+- SO(3): operates on 3D spatial vectors
+- SO⁺(1,3): operates on 4D spacetime vectors
+
+Since vectors are rank-1 tensors, these are called the \textbf{spin-1 representation}.
+
+However, there are OTHER sets of matrices that satisfy the SAME commutation relations but have different dimensions. These are different \textbf{representations} of the same Lie algebra.
+
+\subsection{Multiple Representations Example}
+
+Just as the complex number i can be represented by different matrices that all square to -1:
+$$i \rightarrow \begin{pmatrix} 0 & -1 \\ 1 & 0 \end{pmatrix}, \quad i \rightarrow \begin{pmatrix} 0 & 0 & -1 & 0 \\ 0 & 0 & 0 & -1 \\ 1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0 \end{pmatrix}$$
+
+Similarly, there are multiple matrix representations of the SO(3) and SO⁺(1,3) generators.
+
+\subsection{Spin-1/2 Representation}
+
+There exist \textbf{2×2 matrices} that follow the same commutation relations as the SO(3) generators:
+
+$$g_{yz} = \frac{1}{2}\begin{pmatrix} 0 & -i \\ -i & 0 \end{pmatrix}, \quad g_{zx} = \frac{1}{2}\begin{pmatrix} 0 & -1 \\ 1 & 0 \end{pmatrix}, \quad g_{xy} = \frac{1}{2}\begin{pmatrix} -i & 0 \\ 0 & i \end{pmatrix}$$
+
+For SO⁺(1,3):
+
+$$J_{yz} = \frac{1}{2}\begin{pmatrix} 0 & -i \\ -i & 0 \end{pmatrix}, \quad J_{zx} = \frac{1}{2}\begin{pmatrix} 0 & -1 \\ 1 & 0 \end{pmatrix}, \quad J_{xy} = \frac{1}{2}\begin{pmatrix} -i & 0 \\ 0 & i \end{pmatrix}$$
+
+$$K_{tx} = \frac{1}{2}\begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}, \quad K_{ty} = \frac{1}{2}\begin{pmatrix} 0 & -i \\ i & 0 \end{pmatrix}, \quad K_{tz} = \frac{1}{2}\begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix}$$
+
+These are the \textbf{spin-1/2 representation} because they transform \textbf{spinors} (2-component objects).
+
+The transformation matrices for spinors:
+- \textbf{Pauli spinors}: Transform under SO(3) (rotations only)
+- \textbf{Weyl spinors}: Transform under SO⁺(1,3) (rotations and boosts)
+
+\section{Math Convention vs Physics Convention}
+
+Depending on the textbook, the generators may look different due to conventions.
+
+\subsection{Math Convention}
+
+Generators are:
+- \textbf{Traceless}: $\text{tr}(g) = 0$
+- \textbf{Antisymmetric}: $g^T = -g$
+
+Exponential formula:
+$$e^{\theta g} = R(\theta)$$
+
+Example:
+$$g_{xy} = \begin{pmatrix} 0 & -1 & 0 \\ 1 & 0 & 0 \\ 0 & 0 & 0 \end{pmatrix}$$
+
+\subsection{Physics Convention}
+
+Generators are multiplied by $-i$:
+$$\tilde{g} = -ig$$
+
+This makes them:
+- \textbf{Traceless}: $\text{tr}(\tilde{g}) = 0$
+- \textbf{Hermitian}: $\tilde{g}^{T*} = \tilde{g}$ (complex conjugate transpose equals itself)
+
+Exponential formula (with compensating factor of $i$):
+$$e^{i\theta\tilde{g}} = R(\theta)$$
+
+Example:
+$$\tilde{g}_{xy} = -ig_{xy} = \begin{pmatrix} 0 & i & 0 \\ -i & 0 & 0 \\ 0 & 0 & 0 \end{pmatrix}$$
+
+$$\tilde{g}_{yz} = \begin{pmatrix} 0 & 0 & 0 \\ 0 & 0 & i \\ 0 & -i & 0 \end{pmatrix}, \quad \tilde{g}_{zx} = \begin{pmatrix} 0 & 0 & -i \\ 0 & 0 & 0 \\ i & 0 & 0 \end{pmatrix}$$
+
+\subsection{Why Physicists Use This Convention}
+
+In quantum mechanics, \textbf{observables must be represented by Hermitian operators} because:
+1. Hermitian operators have \textbf{real eigenvalues}
+2. Measurements must give real numbers, not complex numbers
+
+Since Lie algebra generators correspond to observables (momentum, angular momentum, spin), physicists multiply by $-i$ to make them Hermitian.
+
+\textbf{Examples}:
+
+Momentum operator eigenvalue equation:
+$$\hat{p}\psi = p\psi$$
+where p is a real number (the measured momentum).
+
+The operator is:
+$$\hat{p} = -i\hbar\frac{\partial}{\partial x}$$
+
+Spin operator eigenvalue equation:
+$$\hat{S}_y\psi = +\frac{\hbar}{2}\psi$$
+where $\frac{\hbar}{2}$ is real.
+
+The operator is:
+$$\hat{S}_y = \frac{\hbar}{2}\begin{pmatrix} 0 & -i \\ i & 0 \end{pmatrix}$$
+
+This is Hermitian: $\hat{S}_y^{T*} = \hat{S}_y$.
+
+\subsection{Summary of Conventions}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{ccc}
+\toprule
+\textbf{Convention} & \textbf{Generator Properties} & \textbf{Exponential Formula} \\
+\midrule
+Math & Traceless, Antisymmetric: $g^T = -g$ & $e^{\theta g} = R(\theta)$ \\
+Physics & Traceless, Hermitian: $\tilde{g}^{T*} = \tilde{g}$ & $e^{i\theta\tilde{g}} = R(\theta)$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The physics convention requires an extra factor of $i$ in the exponential to compensate for the $-i$ in the generator definition.
+
+\section{Key Concepts Summary}
+
+1. \textbf{Particle spin} determines the mathematical representation:
+   - Spin 0 → Scalars
+   - Spin 1/2 → Spinors
+   - Spin 1 → Vectors
+
+2. \textbf{Groups} are sets with closure, associativity, identity, and inverses.
+
+3. \textbf{Lie groups} are continuous groups (e.g., rotations).
+
+4. \textbf{Lie algebras} are the tangent spaces at the identity of Lie groups, consisting of generators.
+
+5. \textbf{Generators} can be found by: $M = \frac{dR}{d\theta}\big|_{\theta=0}$
+
+6. \textbf{Matrix exponentials} connect Lie algebras to Lie groups: $R = e^{\theta M}$
+
+7. \textbf{SO(3) generators} are traceless and antisymmetric.
+
+8. \textbf{The Lie bracket} (commutator) $[A,B] = AB - BA$ is the multiplication operation in Lie algebras.
+
+9. \textbf{so(3) commutation relations}: $[g_{xy}, g_{yz}] = g_{zx}$ (and cyclic permutations)
+
+10. \textbf{The Lorentz group SO⁺(1,3)} includes 3 rotations and 3 boosts, with so(3) as a sub-algebra.
+
+11. \textbf{Different representations} of the same Lie algebra exist (spin-1, spin-1/2, etc.)
+
+12. \textbf{Observables in quantum mechanics} = Hermitian operators = Lie algebra generators (in physics convention)
+
+
+\end{document}
