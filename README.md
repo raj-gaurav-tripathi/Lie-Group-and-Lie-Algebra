@@ -73,7 +73,7 @@ The notes develop the subject progressively:
 ```
 .
 ├── main.tex        # Main LaTeX source
-├── output.pdf      # Compiled document
+├── Lie_Group_and_Lie_Algebra_1.pdf      # Compiled document
 └── README.md       # This file
 ```
 
